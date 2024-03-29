@@ -84,6 +84,7 @@ public class ModuleServlet extends HttpServlet {
 				
 				session.setAttribute("moduleData", module);
 				session.setAttribute("scheduleList", scheduleList);
+				session.setAttribute("moduleID", moduleID);
 				
 				
 				String redirectURL = baseFolder + moduleFolder + "DateSelector.jsp";

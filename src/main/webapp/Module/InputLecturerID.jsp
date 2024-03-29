@@ -2,7 +2,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.List"%>
-<%@ page import="model.Module"%>
+<%-- <%@ page import="model.Module"%> --%>
 <!DOCTYPE html>
 <html>
 <head>

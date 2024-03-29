@@ -11,6 +11,9 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Student.findAll", query="SELECT s FROM Student s")
+@NamedQuery(
+	    name = "Student.findByModule",
+	    query = "SELECT s FROM Student s JOIN s.enrollments e WHERE e.module.id = :moduleId")
 public class Student implements Serializable {
 	private static final long serialVersionUID = 1L;
 

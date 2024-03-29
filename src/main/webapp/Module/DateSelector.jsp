@@ -89,7 +89,16 @@ h1, h2, em {
 	@SuppressWarnings("unchecked")
 	List<Schedule> scheduleList = (List<Schedule>) session.getAttribute("scheduleList");
 	Module moduleData = (Module) session.getAttribute("moduleData");
+	Integer chosenModule = (Integer) session.getAttribute("moduleID"); 
 	%>
+	
+	 <%
+	if (request.getParameter("scheduleID") != null) {
+		response.sendRedirect(
+		"/AttendanceDAO/RegisterAttendanceServlet?action=showAllStudents&chosenModule=" + session.getAttribute("moduleID") + "&scheduleID=" + request.getParameter("scheduleID"));
+	}
+	%>
+	
 	<div class="grid-container">
 		<div class="main-container">
 		<span><a href="/AttendanceDAO/Module/ListModules.jsp" class="" style="margin-right: 10px;text-decoration:none;"> <span class="">&larr;</span>
@@ -104,7 +113,7 @@ h1, h2, em {
 				<div class="schedule-container">
 					<c:forEach items="${scheduleList}" var="schedule">
 						<div class="checklist-item">
-							<input type="radio" id="${schedule.scheduleID}" name="checklist" value="${schedule.scheduleID}"> 
+							<input type="radio" id="${schedule.scheduleID}" name="scheduleID" value="${schedule.scheduleID}"> 
 							<label for="${schedule.scheduleID}">${schedule.scheduleDate} ${schedule.scheduleTime}</label>
 						</div>
 					</c:forEach>
