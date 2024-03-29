@@ -32,7 +32,6 @@ public class RegisterAttendanceDTO {
     }
 
     public List<Student> getStudentsByModule(Integer moduleId) {
-//    	Integer moduleIdInt = moduleId.intValue();
     	List queryResults = em.createNamedQuery("Student.findByModule", Student.class)
         		.setParameter("moduleId", moduleId)
                  .getResultList();
@@ -60,10 +59,8 @@ public class RegisterAttendanceDTO {
 
 		Set<String> presentStudentIdsSet = new HashSet<>(selectedStudents);
 
-		// Iterate over all student IDs
+
 		for (String student : allStudentIds) {
-			// If the student ID is in presentStudentIdsSet, the student is present, otherwise they are absent
-//			attendance.put(studentId, presentStudentIdsSet.contains(studentId));
 			Attendance studentAttendance = new Attendance();
 
 			Module studentModule = new Module();
@@ -73,7 +70,6 @@ public class RegisterAttendanceDTO {
 			studentObj.setStudentID(Integer.parseInt(student));
 
 			Schedule attendedSchedule = new Schedule();
-			System.out.println( scheduleID);
 			attendedSchedule.setScheduleID(scheduleID);
 
 

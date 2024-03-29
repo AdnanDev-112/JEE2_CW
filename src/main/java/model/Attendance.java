@@ -1,15 +1,25 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
 
 /**
  * The persistent class for the attendance database table.
- * 
+ *
  */
 @Entity
 @NamedQuery(name="Attendance.findAll", query="SELECT a FROM Attendance a")
+@NamedQuery(name="Attendance.findByStudentIDAndModuleID", query="SELECT a FROM Attendance a WHERE a.student.studentID = :studentID AND a.module.moduleID = :moduleID")
+
+
 public class Attendance implements Serializable {
 	private static final long serialVersionUID = 1L;
 

@@ -1,13 +1,19 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 
 /**
  * The persistent class for the module database table.
- * 
+ *
  */
 @Entity
 @NamedQuery(name="Module.findAll", query="SELECT m FROM Module m")

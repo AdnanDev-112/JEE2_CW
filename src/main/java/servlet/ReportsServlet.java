@@ -1,8 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -14,29 +12,34 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.RegisterAttendanceDTO;
+import dao.ReportsDTO;
+import model.Attendance;
 import model.Student;
 
 /**
- * Servlet implementation class RegisterAttendanceServlet
+ * Servlet implementation class ReportsServlet
  */
-@WebServlet("/RegisterAttendanceServlet")
-public class RegisterAttendanceServlet extends HttpServlet {
+@WebServlet("/ReportsServlet")
+public class ReportsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-private static String baseFolder = "/AttendanceDAO";
+	private static String baseFolder = "/AttendanceDAO";
 
-	private static String moduleFolder = "/RegisterAttendance/";
-
-	@EJB
-    private RegisterAttendanceDTO registerAttDTO ;
+	private static String moduleFolder = "/Report/";
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegisterAttendanceServlet() {
+    public ReportsServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
+
+    @EJB
+    private RegisterAttendanceDTO registerAttDTO ;
+
+    @EJB
+    private ReportsDTO reportsDTO;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -50,17 +53,13 @@ private static String baseFolder = "/AttendanceDAO";
 		case "showAllStudents": {
 			try {
 				HttpSession session = request.getSession();
-				String moduleIDStr = request.getParameter("chosenModule");
+				String moduleIDStr = request.getParameter("reportModuleID");
 				int moduleID = Integer.parseInt(moduleIDStr);
-				String scheduleIDStr = request.getParameter("scheduleID");
-				int scheduleID = Integer.parseInt(scheduleIDStr);
-
 
 				List<Student> studentList = registerAttDTO.getStudentsByModule(moduleID);
-				session.setAttribute("studentList", studentList);
-				session.setAttribute("scheduleID", scheduleID);
-				session.setAttribute("chosenModule", moduleID);
-				String redirectURL = baseFolder + moduleFolder + "ListStudents.jsp";
+				session.setAttribute("reportStudentList", studentList);
+				session.setAttribute("reportModuleID", moduleID);
+				String redirectURL = baseFolder + moduleFolder + "selectStudents.jsp";
 			    response.sendRedirect(redirectURL);
 
 				break;
@@ -70,27 +69,23 @@ private static String baseFolder = "/AttendanceDAO";
 				System.out.println(e);
 			}
 		}
-		case "registerStudentsAttendance": {
+		case "showReport": {
 			try {
+				System.out.print("didnt even hit");
 				HttpSession session = request.getSession();
-				String moduleIDStr = request.getParameter("chosenModule");
-				int moduleID = Integer.parseInt(moduleIDStr);
+				String studentIDStr = request.getParameter("studentID");
+				int studentID = Integer.parseInt(studentIDStr);
 
-				String scheduleIDstr = request.getParameter("scheduleID");
-				int scheduleID = Integer.parseInt(scheduleIDstr);
+				String reportModuleIDStr = request.getParameter("reportModuleID");
+				System.out.print("moule str?"+ reportModuleIDStr );
 
+				int reportModuleID = Integer.parseInt(reportModuleIDStr);
 
-				List<String> selectedStudents = new ArrayList<>(Arrays.asList(request.getParameterValues("selectedStudents")));
-			    if (selectedStudents.size() > 0 ) {
-			        for (String studentID : selectedStudents) {
-			        	System.out.println(studentID);
-			        }
-			        registerAttDTO.saveStudentAttendance(moduleID , scheduleID ,selectedStudents);
-			    }
-
-				String redirectURL = baseFolder + moduleFolder + "RegisterSuccessfull.jsp";
+				List<Attendance> attendanceList = reportsDTO.getstudentAttendance(studentID,reportModuleID);
+				session.setAttribute("attendanceList", attendanceList);
+				String redirectURL = baseFolder + moduleFolder + "displayReport.jsp";
 			    response.sendRedirect(redirectURL);
-//			    response.setStatus(HttpServletResponse.SC_OK);
+
 				break;
 
 			}catch(Exception e)
@@ -101,8 +96,8 @@ private static String baseFolder = "/AttendanceDAO";
 
 
 
-		}
 
+		}
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

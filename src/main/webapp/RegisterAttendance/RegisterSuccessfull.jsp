@@ -15,13 +15,13 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        height: 100vh; /* Use the full height of the viewport */
+        height: 100vh; 
     }
 
     .message {
         color: #333;
         margin-bottom: 20px;
-        font-size: 24px; /* Adjust the size as needed */
+        font-size: 24px;
     }
 
     button {
@@ -32,7 +32,7 @@
         border-radius: 4px;
         cursor: pointer;
         transition: background-color 0.3s;
-        font-size: 16px; /* Optional: Adjusts the font size */
+        font-size: 16px; 
     }
 
     button:hover {

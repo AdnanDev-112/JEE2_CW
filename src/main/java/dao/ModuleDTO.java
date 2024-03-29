@@ -8,9 +8,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import model.Lecturer;
 import model.Module;
 import model.Schedule;
-import model.Lecturer;
 
 /**
  * Session Bean implementation class AttendanceDTO
@@ -33,16 +33,16 @@ public class ModuleDTO {
 		// TODO Auto-generated method stub
 		List queryResults = em.createNamedQuery("Module.findByLecturer", Module.class)
 				.setParameter("lecturerID", lecturerID).getResultList();
-		List<Module> listResult = new ArrayList<Module>();
+		List<Module> listResult = new ArrayList<>();
 
-		for (int i = 0; i < queryResults.size(); i++) {
+		for (Object queryResult : queryResults) {
 			Module b = new Module();
-			b = (Module) queryResults.get(i);
+			b = (Module) queryResult;
 			listResult.add(b);
-		};
+		}
 
 		return listResult;
-	};
+	}
 
 	public Lecturer getLecturerById(int lecturerID) {
 
@@ -50,7 +50,7 @@ public class ModuleDTO {
 				.setParameter("lecturerID", lecturerID).getResultList();
 
 		Lecturer b = new Lecturer();
-		b = (Lecturer) queryResults.get(0);
+		b = queryResults.get(0);
 		return b;
 	}
 
@@ -60,29 +60,34 @@ public class ModuleDTO {
 				.getResultList();
 
 		Module m = new Module();
-		m = (Module) queryResults.get(0);
+		m = queryResults.get(0);
 		return m;
 	}
-	
+
 	public List<Schedule> getScheduleForModule(int moduleID){
 		List<Schedule> queryResults = em.createNamedQuery("Schedule.findByModuleId", Schedule.class)
 				.setParameter("moduleID", moduleID)
 				.getResultList();
-		
-		List<Schedule> listResult = new ArrayList<Schedule>();
-		
+
+		List<Schedule> listResult = new ArrayList<>();
+
 		for (int i = 0; i < queryResults.size(); i++) {
 			Schedule b = new Schedule();
-			b = (Schedule) queryResults.get(i);
+			b = queryResults.get(i);
 			listResult.add(b);
-		};
-		
+		}
+
 		return listResult;
-		
-		
+
+
 	}
-	
-	
-	
+
+	public List<Module> getAllModules(){
+	    return em.createQuery("SELECT m FROM Module m", Module.class).getResultList();
+	}
+
+
+
+
 
 }

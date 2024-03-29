@@ -3,7 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.List"%>
-<%@ page import="model.Student"%> 
+<%@ page import="model.Attendance"%> 
 
 <!DOCTYPE html>
 <html>
@@ -26,7 +26,7 @@ body {
 }
 
 .table-container {
-    width: 80%; 
+    width: 100%; 
     overflow-x: auto; 
     margin: 0 auto;  
 }
@@ -73,41 +73,51 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
 </style>
 </head>
 <body>
 
 <% 
 @SuppressWarnings("unchecked")
-List<Student> studentList = (List<Student>) session.getAttribute("studentList");
-Integer chosenModule = (Integer) session.getAttribute("moduleID"); 
-Integer scheduleID = (Integer) session.getAttribute("scheduleID"); 
+List<Attendance> attendanceList = (List<Attendance>) session.getAttribute("attendanceList");
 %>
 
+
+
 <div class="centered-container">
-    <form action="/AttendanceDAO/RegisterAttendanceServlet" method="GET">
-        <input type="hidden" name="chosenModule" value="<%= chosenModule %>">
-        <input type="hidden" name="scheduleID" value="<%= scheduleID %>">
-        <h1>Listing Students Enrolled in the Module</h1>
+    <form action="#" method="GET">
+        <h1>Student Report</h1>
+        
+        <h3>${attendanceList.get(0).student.name} </h3>
         <div class="table-container">
             <table>
                 <tr>
-                    <th>Student ID</th>
-                    <th>Email</th>
-                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Time</th>
                     <th>Attendance</th>
                 </tr>
-                <c:forEach items="${studentList}" var="student">
+                <c:forEach items="${attendanceList}" var="attendance">
                     <tr>
-                        <td>${student.studentID}</td>
-                        <td>${student.email}</td>
-                        <td>${student.name}</td>
-                        <td><input type="checkbox" name="selectedStudents" value="${student.studentID}"></td>
+                        <td>${attendance.schedule.scheduleDate}</td>
+                        <td>${attendance.schedule.scheduleTime}</td>
+                        <td>
+                        <c:choose>
+                <c:when test="${attendance.attended == 1}">
+                    &#10004; 
+                </c:when>
+                <c:otherwise>
+                    &#10008; 
+                </c:otherwise>
+            </c:choose>
+                        
+                        
+                        </td>
                     </tr>
                 </c:forEach>
             </table>
         </div>
-        <button type="submit" name="action" value="registerStudentsAttendance">Mark Attendance</button>
+        <button onclick="window.location.href='/AttendanceDAO';">HOME</button>
     </form>
 </div>
 
