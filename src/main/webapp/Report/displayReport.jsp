@@ -87,9 +87,10 @@ List<Attendance> attendanceList = (List<Attendance>) session.getAttribute("atten
 
 <div class="centered-container">
     <form action="#" method="GET">
-        <h1>Student Report</h1>
+    	<h1>${attendanceList.get(0).module.longName}</h1>
+        <h2>Student Report</h2>
         
-        <h3>${attendanceList.get(0).student.name} </h3>
+        <h3>Student Name: ${attendanceList.get(0).student.name} </h3>
         <div class="table-container">
             <table>
                 <tr>
@@ -117,7 +118,7 @@ List<Attendance> attendanceList = (List<Attendance>) session.getAttribute("atten
                 </c:forEach>
             </table>
         </div>
-        <button onclick="window.location.href='/AttendanceDAO';">HOME</button>
+        <button onclick="window.location.href='/AttendanceDAO/';">HOME</button>
     </form>
 </div>
 
